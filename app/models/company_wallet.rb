@@ -1,0 +1,2 @@
+class CompanyWallet < ApplicationRecord
+end

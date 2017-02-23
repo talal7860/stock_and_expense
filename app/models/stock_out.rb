@@ -1,0 +1,2 @@
+class StockOut < ApplicationRecord
+end

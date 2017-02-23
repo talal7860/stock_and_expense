@@ -9,6 +9,7 @@ class CreateExpenses < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
+    add_index :expenses, :added_by_id
     add_index :expenses, :expense_category_id
     add_index :expenses, :admin_user_id
   end

@@ -9,7 +9,7 @@ class DeviseCreateAdminUsers < ActiveRecord::Migration[5.0]
       t.string :phone_number
       t.text :address
       t.boolean :is_active, default: true
-      t.integer :salary_cents
+      t.monetize :salary
       t.integer :share_percentage
 
 

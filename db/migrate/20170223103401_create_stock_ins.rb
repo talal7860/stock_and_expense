@@ -5,7 +5,7 @@ class CreateStockIns < ActiveRecord::Migration[5.0]
       t.integer :quantity
       t.integer :client_id
       t.integer :added_by_id
-      t.integer :amount_cents
+      t.monetize :amount
       t.date :manufacture_date
       t.date :expiry_date
 

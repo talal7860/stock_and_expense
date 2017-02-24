@@ -30,30 +30,32 @@ ActiveRecord::Schema.define(version: 20170223110810) do
   end
 
   create_table "admin_users", force: :cascade do |t|
-    t.string   "email",                  default: "",   null: false
-    t.string   "encrypted_password",     default: "",   null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "username"
     t.string   "name"
     t.string   "phone_number"
     t.text     "address"
     t.boolean  "is_active",              default: true
-    t.integer  "salary_cents"
+    t.integer  "salary_cents",           default: 0,     null: false
+    t.string   "salary_currency",        default: "USD", null: false
     t.integer  "share_percentage"
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,    null: false
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.integer  "failed_attempts",        default: 0,    null: false
+    t.integer  "failed_attempts",        default: 0,     null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
+    t.index ["unlock_token"], name: "index_admin_users_on_unlock_token", unique: true, using: :btree
   end
 
   create_table "clients", force: :cascade do |t|
@@ -67,17 +69,22 @@ ActiveRecord::Schema.define(version: 20170223110810) do
   create_table "company_transactions", force: :cascade do |t|
     t.string   "detail"
     t.string   "type_"
-    t.integer  "amount_cents"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.integer  "amount_cents",    default: 0,     null: false
+    t.string   "amount_currency", default: "USD", null: false
+    t.integer  "added_by_id"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.index ["added_by_id"], name: "index_company_transactions_on_added_by_id", using: :btree
   end
 
   create_table "company_wallets", force: :cascade do |t|
     t.string   "detail"
-    t.integer  "amount_cents"
+    t.integer  "amount_cents",    default: 0,     null: false
+    t.string   "amount_currency", default: "USD", null: false
     t.integer  "added_by_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.index ["added_by_id"], name: "index_company_wallets_on_added_by_id", using: :btree
   end
 
   create_table "customers", force: :cascade do |t|
@@ -99,9 +106,13 @@ ActiveRecord::Schema.define(version: 20170223110810) do
     t.integer  "added_by_id"
     t.integer  "expense_category_id"
     t.integer  "admin_user_id"
-    t.integer  "amount_cents"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.integer  "amount_cents",        default: 0,     null: false
+    t.string   "amount_currency",     default: "USD", null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.index ["added_by_id"], name: "index_expenses_on_added_by_id", using: :btree
+    t.index ["admin_user_id"], name: "index_expenses_on_admin_user_id", using: :btree
+    t.index ["expense_category_id"], name: "index_expenses_on_expense_category_id", using: :btree
   end
 
   create_table "skus", force: :cascade do |t|
@@ -116,11 +127,15 @@ ActiveRecord::Schema.define(version: 20170223110810) do
     t.integer  "quantity"
     t.integer  "client_id"
     t.integer  "added_by_id"
-    t.integer  "amount_cents"
+    t.integer  "amount_cents",     default: 0,     null: false
+    t.string   "amount_currency",  default: "USD", null: false
     t.date     "manufacture_date"
     t.date     "expiry_date"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.index ["added_by_id"], name: "index_stock_ins_on_added_by_id", using: :btree
+    t.index ["client_id"], name: "index_stock_ins_on_client_id", using: :btree
+    t.index ["sku_id"], name: "index_stock_ins_on_sku_id", using: :btree
   end
 
   create_table "stock_outs", force: :cascade do |t|
@@ -128,9 +143,13 @@ ActiveRecord::Schema.define(version: 20170223110810) do
     t.integer  "customer_id"
     t.integer  "sku_id"
     t.integer  "added_by_id"
-    t.integer  "amount_cents"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.integer  "amount_cents",    default: 0,     null: false
+    t.string   "amount_currency", default: "USD", null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.index ["added_by_id"], name: "index_stock_outs_on_added_by_id", using: :btree
+    t.index ["customer_id"], name: "index_stock_outs_on_customer_id", using: :btree
+    t.index ["sku_id"], name: "index_stock_outs_on_sku_id", using: :btree
   end
 
 end

@@ -5,7 +5,7 @@ class CreateExpenses < ActiveRecord::Migration[5.0]
       t.integer :added_by_id
       t.integer :expense_category_id
       t.integer :admin_user_id
-      t.integer :amount_cents
+      t.monetize :amount
 
       t.timestamps
     end

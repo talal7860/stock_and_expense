@@ -9,5 +9,9 @@ class AdminUser < ApplicationRecord
   has_many :added_stock_ins, foreign_key: :added_by_id, class_name: "StockIn"
   has_many :added_stock_outs, foreign_key: :added_by_id, class_name: "StockOut"
   has_many :added_transactions, foreign_key: :added_by_id, class_name: "CompanyTransaction"
+  monetize :salary_cents, allow_nil: true,
+    :numericality => {
+      :greater_than_or_equal_to => 0
+    }
 
 end

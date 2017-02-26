@@ -24,8 +24,22 @@ RSpec.describe StockOut, type: :model do
     it "should create a transaction after a stock is sold with a credit transaction" do
       stock_out = FactoryGirl::create(:stock_out)
       expect(stock_out.company_transaction.id).to eq(CompanyTransaction.first.id)
+    end
+
+    it "should credit the transaction table" do
+      stock_out = FactoryGirl::create(:stock_out)
       expect(stock_out.company_transaction.transaction_type).to eq("credit")
+    end
+
+    it "should set the transaction amount with stock quantity" do
+      stock_out = FactoryGirl::create(:stock_out)
       expect(stock_out.company_transaction.amount_cents).to eq(stock_out.amount_cents * stock_out.quantity)
+    end
+
+    it "should decrement the remaining stocks" do
+      stock_in = FactoryGirl::create(:stock_in)
+      stock_out = FactoryGirl::create(:stock_out, sku: stock_in.sku)
+      expect(stock_out.sku.remaining).to eq(0)
     end
   end
 end

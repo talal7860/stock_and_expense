@@ -4,9 +4,10 @@ class StockOut < ApplicationRecord
   belongs_to :customer
   has_one :company_transaction, as: :transactable
 
-  validates_numericality_of :quantity, greater_than_or_equal_to: 0
+  validates_numericality_of :quantity, greater_than: 0
   validates_presence_of :added_by, :customer, :sku
   before_save :create_transaction
+  after_create :remove_stock
 
   monetize :amount_cents, :numericality => {
     :greater_than_or_equal_to => 0
@@ -23,5 +24,9 @@ class StockOut < ApplicationRecord
         added_by: self.added_by
       )
     end
+  end
+
+  def remove_stock
+    sku.decrement(:remaining, quantity * sku.quantity)
   end
 end

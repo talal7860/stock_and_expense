@@ -5,6 +5,7 @@ class CreateCompanyTransactions < ActiveRecord::Migration[5.0]
       t.integer :transaction_type
       t.monetize :amount
       t.integer :added_by_id
+      t.references :transactable, polymorphic: true, index: false
 
       t.timestamps
     end

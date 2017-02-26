@@ -69,11 +69,13 @@ ActiveRecord::Schema.define(version: 20170223110810) do
   create_table "company_transactions", force: :cascade do |t|
     t.string   "detail"
     t.integer  "transaction_type"
-    t.integer  "amount_cents",     default: 0,     null: false
-    t.string   "amount_currency",  default: "USD", null: false
+    t.integer  "amount_cents",      default: 0,     null: false
+    t.string   "amount_currency",   default: "USD", null: false
     t.integer  "added_by_id"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.string   "transactable_type"
+    t.integer  "transactable_id"
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.index ["added_by_id"], name: "index_company_transactions_on_added_by_id", using: :btree
   end
 

@@ -17,7 +17,7 @@ class StockOut < ApplicationRecord
   def create_transaction
     if self.company_transaction.nil?
       self.company_transaction = CompanyTransaction.create!(
-        transaction_type: :debit,
+        transaction_type: :credit,
         amount_cents: (self.amount_cents * self.quantity),
         detail: "#{quantity} #{sku.name.pluralize(self.quantity)} sold to #{customer.name}",
         added_by: self.added_by

@@ -14,4 +14,18 @@ RSpec.describe StockIn, type: :model do
     it { should validate_presence_of(:sku) }
     it { should validate_numericality_of(:quantity).is_greater_than(0) }
   end
+  describe "#Creation" do
+    it "should successfully create an object" do
+      expect{
+        FactoryGirl::create(:stock_in)
+      }.to change{StockIn.count}.by(1)
+    end
+
+    it "should create a transaction after a stock is sold with a debit transaction" do
+      stock_in = FactoryGirl::create(:stock_in)
+      expect(stock_in.company_transaction.id).to eq(CompanyTransaction.first.id)
+      expect(stock_in.company_transaction.transaction_type).to eq("debit")
+      expect(stock_in.company_transaction.amount_cents).to eq(stock_in.amount_cents * stock_in.quantity)
+    end
+  end
 end

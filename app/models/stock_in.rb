@@ -9,4 +9,18 @@ class StockIn < ApplicationRecord
   monetize :amount_cents, :numericality => {
     :greater_than_or_equal_to => 0
   }
+  before_save :create_transaction
+
+  private
+
+  def create_transaction
+    if self.company_transaction.nil?
+      self.company_transaction = CompanyTransaction.create!(
+        transaction_type: :debit,
+        amount_cents: (self.amount_cents * self.quantity),
+        detail: "#{quantity} #{sku.name.pluralize(self.quantity)} bought from #{client.name}",
+        added_by: self.added_by
+      )
+    end
+  end
 end

@@ -10,6 +10,8 @@ class StockIn < ApplicationRecord
     :greater_than_or_equal_to => 0
   }
   before_save :create_transaction
+  before_create :add_stock
+  before_save :update_stock
 
   private
 
@@ -22,5 +24,12 @@ class StockIn < ApplicationRecord
         added_by: self.added_by
       )
     end
+  end
+
+  def add_stock
+    sku.increment(:remaining, quantity * sku.quantity)
+  end
+
+  def update_stock
   end
 end

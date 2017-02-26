@@ -24,8 +24,21 @@ RSpec.describe StockIn, type: :model do
     it "should create a transaction after a stock is sold with a debit transaction" do
       stock_in = FactoryGirl::create(:stock_in)
       expect(stock_in.company_transaction.id).to eq(CompanyTransaction.first.id)
+    end
+
+    it "should debit the transaction table" do
+      stock_in = FactoryGirl::create(:stock_in)
       expect(stock_in.company_transaction.transaction_type).to eq("debit")
+    end
+
+    it "should set the transaction amount with stock quantity" do
+      stock_in = FactoryGirl::create(:stock_in)
       expect(stock_in.company_transaction.amount_cents).to eq(stock_in.amount_cents * stock_in.quantity)
+    end
+
+    it "should increment the remaining stocks" do
+      stock_in = FactoryGirl::create(:stock_in)
+      expect(stock_in.sku.remaining).to eq(60)
     end
   end
 end

@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 20170223110810) do
     t.boolean  "is_active",              default: true
     t.integer  "salary_cents",           default: 0,     null: false
     t.string   "salary_currency",        default: "USD", null: false
-    t.integer  "share_percentage"
+    t.integer  "share_percentage",       default: 0
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -122,8 +122,9 @@ ActiveRecord::Schema.define(version: 20170223110810) do
   create_table "skus", force: :cascade do |t|
     t.string   "name"
     t.integer  "quantity"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "remaining",  default: 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "stock_ins", force: :cascade do |t|

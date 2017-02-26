@@ -3,6 +3,7 @@ class CreateSkus < ActiveRecord::Migration[5.0]
     create_table :skus do |t|
       t.string :name
       t.integer :quantity
+      t.integer :remaining, default: 0
 
       t.timestamps
     end

@@ -4,7 +4,7 @@ class StockOut < ApplicationRecord
   belongs_to :customer
   has_one :company_transaction, as: :transactable
 
-  validates_numericality_of :quantity, greater_than: 0
+  validates_numericality_of :quantity, greater_than_or_equal_to: 0
   validates_presence_of :added_by, :customer, :sku
   before_save :create_transaction
 

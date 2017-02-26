@@ -5,6 +5,7 @@ RSpec.describe StockIn, type: :model do
     it { should belong_to(:added_by).with_foreign_key(:added_by_id).class_name('AdminUser') }
     it { should belong_to(:sku) }
     it { should belong_to(:client) }
+    it { should have_one(:company_transaction) }
   end
 
   describe "Validations" do

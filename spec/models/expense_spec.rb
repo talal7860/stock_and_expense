@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Expense, type: :model do
   describe "Associations" do
     it { should belong_to(:added_by).with_foreign_key(:added_by_id).class_name("AdminUser") }
-    it { should have_many(:company_transactions) }
+    it { should have_one(:company_transaction) }
     it { should belong_to(:expense_category) }
     it { should belong_to(:admin_user) }
   end

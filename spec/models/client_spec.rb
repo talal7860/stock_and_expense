@@ -10,4 +10,12 @@ RSpec.describe Client, type: :model do
     it { should validate_presence_of(:phone_number) }
     it { should validate_presence_of(:address) }
   end
+
+  describe "#Creation" do
+    it "should successfully create an object" do
+      expect{
+        FactoryGirl::create(:client)
+      }.to change{Client.count}.by(1)
+    end
+  end
 end

@@ -10,7 +10,7 @@ class DeviseCreateAdminUsers < ActiveRecord::Migration[5.0]
       t.text :address
       t.boolean :is_active, default: true
       t.monetize :salary
-      t.integer :share_percentage
+      t.integer :share_percentage, default: 0
 
 
       ## Recoverable

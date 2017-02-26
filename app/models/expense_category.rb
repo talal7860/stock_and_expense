@@ -4,10 +4,10 @@ class ExpenseCategory < ApplicationRecord
 
   validates_presence_of :name
 
-  before_validation :generate_slug
+  after_validation :generate_slug
 
   private
   def generate_slug
-    self.slug = self.name.parameterize
+    self.slug = self.name.try(:parameterize)
   end
 end

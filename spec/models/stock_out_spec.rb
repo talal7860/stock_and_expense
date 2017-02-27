@@ -70,4 +70,18 @@ RSpec.describe StockOut, type: :model do
       end
     end
   end
+  describe "#Destroy" do
+    it "should add the stocks removed from the stocks" do
+      stock_out = FactoryGirl::create(:stock_out)
+      sku = stock_out.sku
+      stock_out.destroy
+      sku.reload
+      expect(sku.remaining).to eq(0)
+    end
+    it "should remove the transaction from stock in" do
+      stock_out = FactoryGirl::create(:stock_out)
+      stock_out.destroy
+      expect(CompanyTransaction.count).to eq(0)
+    end
+  end
 end

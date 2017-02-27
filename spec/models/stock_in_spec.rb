@@ -41,4 +41,32 @@ RSpec.describe StockIn, type: :model do
       expect(stock_in.sku.remaining).to eq(60)
     end
   end
+  describe "#Update" do
+    context "stocks decrease" do
+      it "should decrease the stocks remaining for that sku" do
+        stock_in = FactoryGirl::create(:stock_in)
+        stock_in.update(quantity: 6)
+        expect(stock_in.sku.remaining).to eq(36)
+      end
+
+      it "should decrease the company transaction" do
+        stock_in = FactoryGirl::create(:stock_in)
+        stock_in.update(quantity: 6)
+        expect(stock_in.company_transaction.amount_cents).to eq(stock_in.amount_cents * stock_in.quantity)
+      end
+    end
+    context "stocks increase" do
+      it "should increase the stocks remaining for that sku" do
+        stock_in = FactoryGirl::create(:stock_in)
+        stock_in.update(quantity: 16)
+        expect(stock_in.sku.remaining).to eq(16 * stock_in.sku.quantity)
+      end
+
+      it "should decrease the company transaction" do
+        stock_in = FactoryGirl::create(:stock_in)
+        stock_in.update(quantity: 6)
+        expect(stock_in.company_transaction.amount_cents).to eq(stock_in.amount_cents * stock_in.quantity)
+      end
+    end
+  end
 end

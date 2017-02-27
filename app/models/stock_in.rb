@@ -11,7 +11,8 @@ class StockIn < ApplicationRecord
   }
   before_save :create_transaction
   before_create :add_stock
-  before_save :update_stock
+  before_update :update_stock
+  before_update :update_transaction
 
   private
 
@@ -31,5 +32,18 @@ class StockIn < ApplicationRecord
   end
 
   def update_stock
+    if self.quantity_changed?
+      sku.decrement(:remaining, (self.quantity_was - self.quantity) * sku.quantity)
+    end
   end
+
+  def update_transaction
+    if self.quantity_changed?
+      company_transaction.update(
+        amount_cents: self.amount_cents * self.quantity,
+        detail: "#{quantity} #{sku.name.pluralize(self.quantity)} bought from #{client.name}",
+      )
+    end
+  end
+
 end

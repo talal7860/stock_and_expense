@@ -8,6 +8,7 @@ class StockOut < ApplicationRecord
   validates_presence_of :added_by, :customer, :sku
   before_save :create_transaction
   after_create :remove_stock
+  before_update :update_stock
 
   monetize :amount_cents, :numericality => {
     :greater_than_or_equal_to => 0
@@ -28,5 +29,8 @@ class StockOut < ApplicationRecord
 
   def remove_stock
     sku.decrement(:remaining, quantity * sku.quantity)
+  end
+
+  def update_stock
   end
 end

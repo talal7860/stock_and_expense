@@ -6,6 +6,10 @@ class ExpenseCategory < ApplicationRecord
 
   after_validation :generate_slug
 
+  def self.find_by_name(name)
+    self.where(slug: name.try(:parameterize)).first
+  end
+
   private
   def generate_slug
     self.slug = self.name.try(:parameterize)

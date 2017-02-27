@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20170223110810) do
     t.text     "address"
     t.boolean  "is_active",              default: true
     t.integer  "salary_cents",           default: 0,     null: false
-    t.string   "salary_currency",        default: "USD", null: false
+    t.string   "salary_currency",        default: "PKR", null: false
     t.integer  "share_percentage",       default: 0
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 20170223110810) do
     t.string   "detail"
     t.integer  "transaction_type"
     t.integer  "amount_cents",      default: 0,     null: false
-    t.string   "amount_currency",   default: "USD", null: false
+    t.string   "amount_currency",   default: "PKR", null: false
     t.integer  "added_by_id"
     t.string   "transactable_type"
     t.integer  "transactable_id"
@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 20170223110810) do
   create_table "company_wallets", force: :cascade do |t|
     t.string   "detail"
     t.integer  "amount_cents",    default: 0,     null: false
-    t.string   "amount_currency", default: "USD", null: false
+    t.string   "amount_currency", default: "PKR", null: false
     t.integer  "added_by_id"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
@@ -111,7 +111,7 @@ ActiveRecord::Schema.define(version: 20170223110810) do
     t.integer  "expense_category_id"
     t.integer  "admin_user_id"
     t.integer  "amount_cents",        default: 0,     null: false
-    t.string   "amount_currency",     default: "USD", null: false
+    t.string   "amount_currency",     default: "PKR", null: false
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.index ["added_by_id"], name: "index_expenses_on_added_by_id", using: :btree
@@ -133,7 +133,7 @@ ActiveRecord::Schema.define(version: 20170223110810) do
     t.integer  "client_id"
     t.integer  "added_by_id"
     t.integer  "amount_cents",     default: 0,     null: false
-    t.string   "amount_currency",  default: "USD", null: false
+    t.string   "amount_currency",  default: "PKR", null: false
     t.date     "manufacture_date"
     t.date     "expiry_date"
     t.datetime "created_at",                       null: false
@@ -149,7 +149,7 @@ ActiveRecord::Schema.define(version: 20170223110810) do
     t.integer  "sku_id"
     t.integer  "added_by_id"
     t.integer  "amount_cents",    default: 0,     null: false
-    t.string   "amount_currency", default: "USD", null: false
+    t.string   "amount_currency", default: "PKR", null: false
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.index ["added_by_id"], name: "index_stock_outs_on_added_by_id", using: :btree

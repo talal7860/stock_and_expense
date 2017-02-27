@@ -37,36 +37,36 @@ RSpec.describe StockOut, type: :model do
     end
 
     it "should decrement the remaining stocks" do
-      stock_in = FactoryGirl::create(:stock_in)
-      stock_out = FactoryGirl::create(:stock_out, sku: stock_in.sku)
+      stock_out = FactoryGirl::create(:stock_in)
+      stock_out = FactoryGirl::create(:stock_out, sku: stock_out.sku)
       expect(stock_out.sku.remaining).to eq(0)
     end
   end
   describe "#Update" do
     context "stocks increase" do
       it "should increase the stocks remaining for that sku" do
-        stock_in = FactoryGirl::create(:stock_in)
-        stock_in.update(quantity: 6)
-        expect(stock_in.sku.remaining).to eq(6 * stock_in.sku.quantity)
+        stock_out = FactoryGirl::create(:stock_out)
+        stock_out.update(quantity: 6)
+        expect(stock_out.sku.remaining).to eq(-6 * stock_out.sku.quantity)
       end
 
       it "should decrease the company transaction" do
-        stock_in = FactoryGirl::create(:stock_in)
-        stock_in.update(quantity: 6)
-        expect(stock_in.company_transaction.amount_cents).to eq(stock_in.amount_cents * stock_in.quantity)
+        stock_out = FactoryGirl::create(:stock_out)
+        stock_out.update(quantity: 6)
+        expect(stock_out.company_transaction.amount_cents).to eq(stock_out.amount_cents * stock_out.quantity)
       end
     end
     context "stocks increase" do
       it "should increase the stocks remaining for that sku" do
-        stock_in = FactoryGirl::create(:stock_in)
-        stock_in.update(quantity: 16)
-        expect(stock_in.sku.remaining).to eq(16 * stock_in.sku.quantity)
+        stock_out = FactoryGirl::create(:stock_out)
+        stock_out.update(quantity: 16)
+        expect(stock_out.sku.remaining).to eq(-16 * stock_out.sku.quantity)
       end
 
       it "should decrease the company transaction" do
-        stock_in = FactoryGirl::create(:stock_in)
-        stock_in.update(quantity: 6)
-        expect(stock_in.company_transaction.amount_cents).to eq(stock_in.amount_cents * stock_in.quantity)
+        stock_out = FactoryGirl::create(:stock_out)
+        stock_out.update(quantity: 6)
+        expect(stock_out.company_transaction.amount_cents).to eq(stock_out.amount_cents * stock_out.quantity)
       end
     end
   end

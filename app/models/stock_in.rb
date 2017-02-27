@@ -2,7 +2,7 @@ class StockIn < ApplicationRecord
   belongs_to :added_by, foreign_key: :added_by_id, class_name: "AdminUser"
   belongs_to :sku
   belongs_to :client
-  has_one :company_transaction, as: :transactable
+  has_one :company_transaction, as: :transactable, dependent: :destroy
 
   validates_numericality_of :quantity, greater_than: 0
   validates_presence_of :added_by, :client, :sku
@@ -13,6 +13,7 @@ class StockIn < ApplicationRecord
   before_create :add_stock
   before_update :update_stock
   before_update :update_transaction
+  after_destroy :remove_stocks
 
   private
 
@@ -26,6 +27,8 @@ class StockIn < ApplicationRecord
       )
     end
   end
+
+  private
 
   def add_stock
     sku.increment(:remaining, quantity * sku.quantity)
@@ -44,6 +47,10 @@ class StockIn < ApplicationRecord
         detail: "#{quantity} #{sku.name.pluralize(self.quantity)} bought from #{client.name}",
       )
     end
+  end
+
+  def remove_stocks
+    sku.decrement(:remaining, self.quantity * sku.quantity)
   end
 
 end

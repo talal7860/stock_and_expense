@@ -38,7 +38,7 @@ RSpec.describe StockIn, type: :model do
 
     it "should increment the remaining stocks" do
       stock_in = FactoryGirl::create(:stock_in)
-      expect(stock_in.sku.remaining).to eq(60)
+      expect(stock_in.sku.remaining).to eq(stock_in.quantity * stock_in.sku.quantity)
     end
   end
   describe "#Update" do
@@ -46,7 +46,7 @@ RSpec.describe StockIn, type: :model do
       it "should decrease the stocks remaining for that sku" do
         stock_in = FactoryGirl::create(:stock_in)
         stock_in.update(quantity: 6)
-        expect(stock_in.sku.remaining).to eq(36)
+        expect(stock_in.sku.remaining).to eq(6 * stock_in.sku.quantity)
       end
 
       it "should decrease the company transaction" do
@@ -67,6 +67,20 @@ RSpec.describe StockIn, type: :model do
         stock_in.update(quantity: 6)
         expect(stock_in.company_transaction.amount_cents).to eq(stock_in.amount_cents * stock_in.quantity)
       end
+    end
+  end
+  describe "#Destroy" do
+    it "should remove the stocks added from the stocks" do
+      stock_in = FactoryGirl::create(:stock_in)
+      sku = stock_in.sku
+      stock_in.destroy
+      sku.reload
+      expect(sku.remaining).to eq(0)
+    end
+    it "should remove the transaction from stock in" do
+      stock_in = FactoryGirl::create(:stock_in)
+      stock_in.destroy
+      expect(CompanyTransaction.count).to eq(0)
     end
   end
 end

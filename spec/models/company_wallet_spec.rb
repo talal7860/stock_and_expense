@@ -10,4 +10,9 @@ RSpec.describe CompanyWallet, type: :model do
     it { should validate_presence_of(:detail) }
     it { should validate_presence_of(:added_by) }
   end
+
+  describe "#create" do
+    it "should create a valid company wallet" do
+    end
+  end
 end

@@ -5,6 +5,7 @@ class CreateStockOuts < ActiveRecord::Migration[5.0]
       t.integer :customer_id
       t.integer :sku_id
       t.integer :added_by_id
+      t.integer :stock_unit
       t.monetize :amount
 
       t.timestamps

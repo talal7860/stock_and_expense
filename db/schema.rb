@@ -121,10 +121,10 @@ ActiveRecord::Schema.define(version: 20170223110810) do
 
   create_table "skus", force: :cascade do |t|
     t.string   "name"
-    t.integer  "quantity"
-    t.integer  "remaining",  default: 0
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.integer  "pet_qunatity"
+    t.integer  "remaining",    default: 0
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "stock_ins", force: :cascade do |t|
@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 20170223110810) do
     t.integer  "added_by_id"
     t.integer  "amount_cents",     default: 0,     null: false
     t.string   "amount_currency",  default: "PKR", null: false
+    t.integer  "stock_unit"
     t.date     "manufacture_date"
     t.date     "expiry_date"
     t.datetime "created_at",                       null: false
@@ -148,6 +149,7 @@ ActiveRecord::Schema.define(version: 20170223110810) do
     t.integer  "customer_id"
     t.integer  "sku_id"
     t.integer  "added_by_id"
+    t.integer  "stock_unit"
     t.integer  "amount_cents",    default: 0,     null: false
     t.string   "amount_currency", default: "PKR", null: false
     t.datetime "created_at",                      null: false

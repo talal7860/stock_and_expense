@@ -7,5 +7,3 @@ FactoryGirl.define do
     quantity 10
   end
 end
-
-

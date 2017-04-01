@@ -37,8 +37,8 @@ RSpec.describe StockOut, type: :model do
     end
 
     it "should decrement the remaining stocks" do
-      stock_out = FactoryGirl::create(:stock_in)
-      stock_out = FactoryGirl::create(:stock_out, sku: stock_out.sku)
+      stock_in = FactoryGirl::create(:stock_in)
+      stock_out = FactoryGirl::create(:stock_out, sku: stock_in.sku)
       expect(stock_out.sku.remaining).to eq(0)
     end
   end
@@ -47,7 +47,7 @@ RSpec.describe StockOut, type: :model do
       it "should increase the stocks remaining for that sku" do
         stock_out = FactoryGirl::create(:stock_out)
         stock_out.update(quantity: 6)
-        expect(stock_out.sku.remaining).to eq(-6 * stock_out.sku.quantity)
+        expect(stock_out.sku.remaining).to eq(-6)
       end
 
       it "should decrease the company transaction" do
@@ -60,7 +60,7 @@ RSpec.describe StockOut, type: :model do
       it "should increase the stocks remaining for that sku" do
         stock_out = FactoryGirl::create(:stock_out)
         stock_out.update(quantity: 16)
-        expect(stock_out.sku.remaining).to eq(-16 * stock_out.sku.quantity)
+        expect(stock_out.sku.remaining).to eq(-16)
       end
 
       it "should decrease the company transaction" do

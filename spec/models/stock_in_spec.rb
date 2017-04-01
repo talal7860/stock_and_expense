@@ -43,7 +43,7 @@ RSpec.describe StockIn, type: :model do
     context "pet stock unit" do
       it 'should set the stocks according to pet unit' do
         stock_in = FactoryGirl::create(:stock_in_pet)
-        expect(stock_in.sku.remaining).to eq(stock_in.quantity * stock_in.sku.pet_qunatity)
+        expect(stock_in.sku.remaining).to eq(stock_in.quantity * stock_in.sku.pet_quantity)
       end
     end
   end

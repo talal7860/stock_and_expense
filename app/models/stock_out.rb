@@ -6,33 +6,23 @@ class StockOut < ApplicationRecord
   after_destroy :add_stock
   after_create :remove_stock
 
+  def transaction_detail
+    "#{quantity} #{sku.name.pluralize(self.quantity * self.pet_quantity)} sold to #{customer.name}"
+  end
   private
 
   def create_transaction
     self.company_transaction = CompanyTransaction.create!(
       transaction_type: :credit,
       amount_cents: self.amount_cents,
-      detail: "#{quantity} #{sku.name.pluralize(self.quantity)} sold to #{customer.name}",
+      detail: transaction_detail,
       added_by: self.added_by
     )
   end
 
-  def update_transaction
-    if self.quantity_changed? || self.amount_cents_changed?
-      company_transaction.update(
-        amount_cents: self.amount_cents,
-        detail: "#{quantity} #{sku.name.pluralize(self.quantity)} sold to #{customer.name}",
-      )
-    end
-  end
-
-  def remove_stock
-    sku.decrement(:remaining, quantity).save
-  end
-
   def update_stock
-    if self.quantity_changed?
-      sku.increment(:remaining, (self.quantity_was - self.quantity)).save
+    if self.quantity_changed? || self.stock_unit_changed?
+      sku.increment(:remaining, ((self.quantity_was * self.pet_quantity) - (self.quantity * self.pet_quantity))).save
     end
   end
 end

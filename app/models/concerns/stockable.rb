@@ -6,7 +6,7 @@ module Stockable
     has_one :company_transaction, as: :transactable, dependent: :destroy
 
     validates_numericality_of :quantity, greater_than: 0
-    validates_presence_of :added_by, :sku
+    validates_presence_of :added_by, :sku, :stock_unit
     before_save :create_transaction
     before_update :update_stock
     after_update :update_transaction
@@ -24,16 +24,25 @@ module Stockable
     if self.stock_unit == 'single'
       1
     elsif self.stock_unit == 'pet'
-      sku.pet_qunatity || 1
+      sku.pet_quantity || 1
     end
   end
 
   def remove_stock
-    sku.decrement(:remaining, self.quantity).save
+    sku.decrement(:remaining, self.quantity * self.pet_quantity).save
   end
 
   def add_stock
     sku.increment(:remaining, quantity * self.pet_quantity).save
+  end
+
+  def update_transaction
+    if self.amount_cents_changed? || self.stock_unit_changed?
+      company_transaction.update(
+        amount_cents: self.amount_cents,
+        detail: transaction_detail
+      )
+    end
   end
 
 end

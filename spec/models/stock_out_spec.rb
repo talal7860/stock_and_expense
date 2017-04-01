@@ -33,17 +33,17 @@ RSpec.describe StockOut, type: :model do
 
     it "should set the transaction amount with stock quantity" do
       stock_out = FactoryGirl::create(:stock_out)
-      expect(stock_out.company_transaction.amount_cents).to eq(stock_out.amount_cents * stock_out.quantity)
+      expect(stock_out.company_transaction.amount_cents).to eq(stock_out.amount_cents)
     end
 
     it "should decrement the remaining stocks" do
-      stock_in = FactoryGirl::create(:stock_in)
-      stock_out = FactoryGirl::create(:stock_out, sku: stock_in.sku)
+      stock_in = FactoryGirl::create(:stock_in, quantity: 10)
+      stock_out = FactoryGirl::create(:stock_out, sku: stock_in.sku, quantity: 10)
       expect(stock_out.sku.remaining).to eq(0)
     end
   end
   describe "#Update" do
-    context "stocks increase" do
+    context "stocks decrease" do
       it "should increase the stocks remaining for that sku" do
         stock_out = FactoryGirl::create(:stock_out)
         stock_out.update(quantity: 6)
@@ -53,7 +53,7 @@ RSpec.describe StockOut, type: :model do
       it "should decrease the company transaction" do
         stock_out = FactoryGirl::create(:stock_out)
         stock_out.update(quantity: 6)
-        expect(stock_out.company_transaction.amount_cents).to eq(stock_out.amount_cents * stock_out.quantity)
+        expect(stock_out.company_transaction.amount_cents).to eq(stock_out.amount_cents)
       end
     end
     context "stocks increase" do
@@ -66,7 +66,7 @@ RSpec.describe StockOut, type: :model do
       it "should decrease the company transaction" do
         stock_out = FactoryGirl::create(:stock_out)
         stock_out.update(quantity: 6)
-        expect(stock_out.company_transaction.amount_cents).to eq(stock_out.amount_cents * stock_out.quantity)
+        expect(stock_out.company_transaction.amount_cents).to eq(stock_out.amount_cents)
       end
     end
   end

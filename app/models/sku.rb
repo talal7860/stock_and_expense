@@ -4,5 +4,5 @@ class Sku < ApplicationRecord
 
   validates_presence_of :name
   validates_numericality_of :remaining
-  validates_numericality_of :pet_qunatity
+  validates_numericality_of :pet_quantity
 end

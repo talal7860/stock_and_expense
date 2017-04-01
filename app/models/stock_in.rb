@@ -16,7 +16,7 @@ class StockIn < ApplicationRecord
     if self.company_transaction.nil?
       self.company_transaction = CompanyTransaction.create!(
         transaction_type: :debit,
-        amount_cents: (self.amount_cents),
+        amount_cents: self.amount_cents,
         detail: transaction_detail,
         added_by: self.added_by
       )
@@ -29,13 +29,5 @@ class StockIn < ApplicationRecord
     end
   end
 
-  def update_transaction
-    if self.amount_cents_changed? || self.stock_unit_changed?
-      company_transaction.update(
-        amount_cents: self.amount_cents,
-        detail: transaction_detail
-      )
-    end
-  end
 
 end

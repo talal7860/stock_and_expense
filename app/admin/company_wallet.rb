@@ -18,6 +18,17 @@ permit_params :added_by_id,
     end
     f.actions
   end
+
+  index do
+    column :detail
+    column :added_by
+    column :amount do |company_wallet|
+      humanized_money_with_symbol company_wallet.amount
+    end
+    column :created_at
+    column :updated_at
+    actions
+  end
 #
 # or
 #

@@ -18,5 +18,17 @@ permit_params :detail,
     f.actions
   end
 
+  index do
+    column :detail
+    column :added_by
+    column :transaction_type
+    column :amount do |company_transaction|
+      humanized_money_with_symbol company_transaction.amount
+    end
+    column :created_at
+    column :updated_at
+    actions
+  end
+
 
 end

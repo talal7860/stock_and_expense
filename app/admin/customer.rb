@@ -15,6 +15,13 @@ permit_params :name,
 #   permitted << :other if params[:action] == 'create' && current_user.admin?
 #   permitted
 # end
+  index do
+    column :name
+    column :phone_number
+    column :created_at
+    column :updated_at
+    actions
+  end
 
 
 end

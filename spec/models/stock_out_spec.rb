@@ -41,6 +41,12 @@ RSpec.describe StockOut, type: :model do
       stock_out = FactoryGirl::create(:stock_out, sku: stock_in.sku, quantity: 10)
       expect(stock_out.sku.remaining).to eq(0)
     end
+    context "#pet" do
+      it 'should decrease the stocks pet wise' do
+        stock_out = FactoryGirl::create(:stock_out, stock_unit: 'pet')
+        expect(stock_out.sku.remaining).to eq(-120)
+      end
+    end
   end
   describe "#Update" do
     context "stocks decrease" do

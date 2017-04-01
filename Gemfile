@@ -66,3 +66,4 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'money-rails', '~>1'
 gem 'select2-rails'
+gem 'phony_rails'

@@ -4,7 +4,7 @@ ActiveAdmin.register Sku do
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
   permit_params :name,
-                :remaining
+                :pet_quantity
 
 
 #
@@ -20,7 +20,7 @@ ActiveAdmin.register Sku do
     f.semantic_errors
     inputs do
       input :name
-      input :remaining
+      input :pet_quantity
     end
     f.actions
   end

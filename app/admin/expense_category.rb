@@ -1,11 +1,25 @@
-ActiveAdmin.register Client do
+ActiveAdmin.register ExpenseCategory do
+
+permit_params :name
+
+  form do |f|
+    f.semantic_errors
+    inputs do
+      f.input :name
+    end
+    f.actions
+  end
+
+  index do
+    column :name
+    column :slug
+    actions
+  end
 
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
-permit_params :name,
-  :phone_number,
-  :address
+# permit_params :list, :of, :attributes, :on, :model
 #
 # or
 #
@@ -15,12 +29,6 @@ permit_params :name,
 #   permitted
 # end
 
-  index do
-    column :name
-    column :phone_number
-    column :created_at
-    column :updated_at
-    actions
-  end
 
 end
+

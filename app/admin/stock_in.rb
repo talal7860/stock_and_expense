@@ -6,6 +6,7 @@ ActiveAdmin.register StockIn do
 # permit_params :list, :of, :attributes, :on, :model
   permit_params :added_by_id,
                 :sku_id,
+                :stock_unit,
                 :manufacture_date,
                 :expiry_date,
                 :client_id,
@@ -19,6 +20,7 @@ ActiveAdmin.register StockIn do
     inputs do
       f.input :added_by_id, as: :hidden
       f.input :sku_id, label: 'Sku', as: :select, collection: Sku.all.map{|c| [c.name, c.id]}
+      f.input :stock_unit
       f.input :quantity
       f.input :amount
       f.input :client_id, label: 'Client', as: :select, collection: Client.all.map{|c| [c.name, c.id]}

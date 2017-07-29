@@ -18,7 +18,7 @@ class Expense < ApplicationRecord
     self.company_transaction = CompanyTransaction.create!(
       transaction_type: :debit,
       amount_cents: self.amount_cents,
-      detail: "Expense for #{self.amount_cents} made by #{admin_user.name}",
+      detail: "Expense for Rs. #{self.amount} made by #{admin_user.name}",
       added_by: self.added_by
     )
   end

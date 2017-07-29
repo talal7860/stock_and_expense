@@ -12,7 +12,7 @@ RSpec.describe StockIn, type: :model do
     it { should validate_presence_of(:added_by) }
     it { should validate_presence_of(:client) }
     it { should validate_presence_of(:sku) }
-    it { should validate_numericality_of(:quantity).is_greater_than(0) }
+    it { should validate_numericality_of(:quantity).is_greater_than_or_equal_to(0) }
   end
   describe "#Creation" do
     it "should successfully create an object" do
@@ -33,7 +33,7 @@ RSpec.describe StockIn, type: :model do
 
     it "should set the transaction amount with stock quantity" do
       stock_in = FactoryGirl::create(:stock_in)
-      expect(stock_in.company_transaction.amount_cents).to eq(stock_in.amount_cents)
+      expect(stock_in.company_transaction.amount_cents).to eq(stock_in.amount_paid_cents)
     end
 
     it "should increment the remaining stocks" do
@@ -58,7 +58,7 @@ RSpec.describe StockIn, type: :model do
       it "should decrease the company transaction" do
         stock_in = FactoryGirl::create(:stock_in)
         stock_in.update(quantity: 6)
-        expect(stock_in.company_transaction.amount_cents).to eq(stock_in.amount_cents)
+        expect(stock_in.company_transaction.amount_cents).to eq(stock_in.amount_paid_cents)
       end
     end
     context "stocks increase" do
@@ -71,20 +71,20 @@ RSpec.describe StockIn, type: :model do
       it "should increase the company transaction" do
         stock_in = FactoryGirl::create(:stock_in)
         stock_in.update(quantity: 16)
-        expect(stock_in.company_transaction.amount_cents).to eq(stock_in.amount_cents)
+        expect(stock_in.company_transaction.amount_cents).to eq(stock_in.amount_paid_cents)
       end
 
       it "should increase the company transaction after amount update" do
         stock_in = FactoryGirl::create(:stock_in)
         stock_in.update(amount_cents: 100000)
         stock_in.reload
-        expect(stock_in.company_transaction.amount_cents).to eq(stock_in.amount_cents)
+        expect(stock_in.company_transaction.amount_cents).to eq(stock_in.amount_paid_cents)
       end
       context 'stock pet' do
         it 'should increase the stock remaining by pet' do
           stock_in = FactoryGirl::create(:stock_in_pet)
           stock_in.update(quantity: 16)
-          expect(stock_in.company_transaction.amount_cents).to eq(stock_in.amount_cents)
+          expect(stock_in.company_transaction.amount_cents).to eq(stock_in.amount_paid_cents)
         end
       end
     end

@@ -12,7 +12,7 @@ RSpec.describe StockOut, type: :model do
     it { should validate_presence_of(:added_by) }
     it { should validate_presence_of(:customer) }
     it { should validate_presence_of(:sku) }
-    it { should validate_numericality_of(:quantity).is_greater_than(0) }
+    it { should validate_numericality_of(:quantity).is_greater_than_or_equal_to(0) }
   end
   describe "#Creation" do
     it "should successfully create an object" do
@@ -33,7 +33,26 @@ RSpec.describe StockOut, type: :model do
 
     it "should set the transaction amount with stock quantity" do
       stock_out = FactoryGirl::create(:stock_out)
-      expect(stock_out.company_transaction.amount_cents).to eq(stock_out.amount_cents)
+      expect(stock_out.company_transaction.amount_cents).to eq(stock_out.amount_paid_cents)
+      expect(stock_out.customer.amount_paid_cents).to eq(stock_out.amount_paid_cents)
+    end
+
+    it "should make sure that the customer amount paid is not equal to stock amount paid" do
+      stock_out = FactoryGirl::create(:stock_out)
+      FactoryGirl::create(:stock_out, customer: stock_out.customer)
+      expect(stock_out.customer.amount_paid_cents).not_to eq(stock_out.amount_paid_cents)
+    end
+
+    it "should set the transaction to the amount paid and add the price to amount due" do
+      stock_out = FactoryGirl::create(:stock_out_less)
+      second_stock = FactoryGirl::create(:stock_out, customer: stock_out.customer)
+      expect(stock_out.company_transaction.amount_cents).to eq(stock_out.amount_paid_cents)
+      expect(stock_out.customer.amount_paid_cents).to eq(stock_out.amount_paid_cents + second_stock.amount_paid_cents)
+    end
+
+    it "should set the amount due in customer" do
+      stock_out = FactoryGirl::create(:stock_out_less)
+      expect(stock_out.customer.amount_due_cents).to eq(stock_out.amount_cents - stock_out.amount_paid_cents)
     end
 
     it "should decrement the remaining stocks" do
@@ -59,7 +78,7 @@ RSpec.describe StockOut, type: :model do
       it "should decrease the company transaction" do
         stock_out = FactoryGirl::create(:stock_out)
         stock_out.update(quantity: 6)
-        expect(stock_out.company_transaction.amount_cents).to eq(stock_out.amount_cents)
+        expect(stock_out.company_transaction.amount_cents).to eq(stock_out.amount_paid_cents)
       end
     end
     context "stocks increase" do
@@ -72,7 +91,7 @@ RSpec.describe StockOut, type: :model do
       it "should decrease the company transaction" do
         stock_out = FactoryGirl::create(:stock_out)
         stock_out.update(quantity: 6)
-        expect(stock_out.company_transaction.amount_cents).to eq(stock_out.amount_cents)
+        expect(stock_out.company_transaction.amount_cents).to eq(stock_out.amount_paid_cents)
       end
     end
   end

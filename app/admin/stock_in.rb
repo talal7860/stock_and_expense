@@ -11,7 +11,8 @@ ActiveAdmin.register StockIn do
                 :expiry_date,
                 :client_id,
                 :quantity,
-                :amount
+                :amount,
+                :amount_paid
 
 
   form do |f|
@@ -23,11 +24,29 @@ ActiveAdmin.register StockIn do
       f.input :stock_unit
       f.input :quantity
       f.input :amount
+      f.input :amount_paid
       f.input :client_id, label: 'Client', as: :select, collection: Client.all.map{|c| [c.name, c.id]}
       f.input :manufacture_date, as: :datepicker, datepicker_options: { max_date: Date.today }
       f.input :expiry_date, as: :datepicker
     end
     f.actions
+  end
+
+  index do
+    column :quantity do |sku_in|
+      if sku_in.stock_unit == 'pet'
+        quantity / sku_in.sku.pet_quantity
+      elsif sku_in.stock_unit == 'single'
+        quantity
+      end
+    end
+    column :amount
+    column :amount_paid
+    column :expiry_date
+    column :added_by
+    column :created_at
+    column :updated_at
+    actions
   end
 
 #

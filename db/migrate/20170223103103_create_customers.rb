@@ -4,6 +4,8 @@ class CreateCustomers < ActiveRecord::Migration[5.0]
       t.string :name
       t.string :phone_number
       t.text :address
+      t.monetize :amount_paid
+      t.monetize :amount_due
 
       t.timestamps
     end

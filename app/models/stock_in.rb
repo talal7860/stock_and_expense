@@ -5,6 +5,8 @@ class StockIn < ApplicationRecord
   validates_presence_of :client
   after_create :add_stock
   after_destroy :remove_stock
+  after_create :add_client_amount
+  after_update :update_client_amount
 
   private
 
@@ -16,11 +18,27 @@ class StockIn < ApplicationRecord
     if self.company_transaction.nil?
       self.company_transaction = CompanyTransaction.create!(
         transaction_type: :debit,
-        amount_cents: self.amount_cents,
+        amount_cents: self.amount_paid_cents,
         detail: transaction_detail,
         added_by: self.added_by
       )
     end
+  end
+
+  def add_client_amount
+    add_person_amount(client)
+    #client.increment(:amount_paid_cents, self.amount_paid_cents)
+    #client.decrement(:amount_due_cents, self.amount_cents - self.amount_paid_cents)
+  end
+
+  def update_client_amount
+    update_person_amount(client)
+    #if self.amount_paid_cents_changed? || self.amount_cents_was_changed?
+      #client.decrement(:amount_paid_cents, self.amount_paid_cents_was)
+      #client.increment(:amount_paid_cents, self.amount_paid_cents)
+      #client.increment(:amount_due_cents, self.amount_cents_was - self.amount_paid_cents_was)
+     # client.decrement(:amount_due_cents, self.amount_cents_was - self.amount_paid_cents_was)
+    #end
   end
 
   def update_stock

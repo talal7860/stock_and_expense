@@ -7,6 +7,16 @@ ActiveAdmin.register Customer do
 permit_params :name,
   :phone_number,
   :address
+
+  form do |f|
+    f.semantic_errors
+    inputs do
+      f.input :name
+      f.input :phone_number
+      f.input :address
+    end
+    f.actions
+  end
 #
 # or
 #
@@ -18,6 +28,8 @@ permit_params :name,
   index do
     column :name
     column :phone_number
+    column :amount_paid
+    column :amount_due
     column :created_at
     column :updated_at
     actions

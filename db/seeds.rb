@@ -8,11 +8,26 @@
 AdminUser.create!([
   {
     email: 'admin@example.com',
-    password: 'password',
-    password_confirmation: 'password',
+    password: 'admin@7860',
+    password_confirmation: 'admin@7860',
     name: "Admin User",
     phone_number: "+923234035166"
+  },
+  {
+    email: 'farhan@example.com',
+    password: 'farhan123',
+    password_confirmation: 'farhan123',
+    name: "Farhan Siddique",
+    phone_number: "+9203007578081"
+  },
+  {
+    email: 'nazeer@example.com',
+    password: 'password',
+    password_confirmation: 'password',
+    name: "Haji Nazeer",
+    phone_number: "+923234035166"
   }
+
 ])
 
 Sku.create([

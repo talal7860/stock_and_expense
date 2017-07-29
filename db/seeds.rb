@@ -15,6 +15,7 @@ AdminUser.create!([
   },
   {
     email: 'farhan@example.com',
+    username: 'farhan',
     password: 'farhan123',
     password_confirmation: 'farhan123',
     name: "Farhan Siddique",
@@ -22,6 +23,7 @@ AdminUser.create!([
   },
   {
     email: 'nazeer@example.com',
+    username: 'nazeer',
     password: 'password',
     password_confirmation: 'password',
     name: "Haji Nazeer",
